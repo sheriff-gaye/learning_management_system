@@ -1,19 +1,42 @@
-import React from 'react'
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "./_components/datatable";
+import { columns } from "./_components/columns";
+import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import { db } from "@/lib/db";
 
-const page = () => {
-  return (
-    <div className='p-6'>
-
-        <Link href="/teacher/create">
-            <Button>
-                New Course
-            </Button>
-        </Link>
-
-    </div>
-  )
+async function getData(): Promise<any[]> {
+  return [
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "m@example.com"
+    }
+  ];
 }
 
-export default page
+const page =async () => {
+    const {userId}=auth();
+    if(!userId){
+        return redirect("/");
+    }
+
+    const courses=await db.course.findMany({
+        where:{
+            userId
+        },
+        orderBy:{
+            createdAt:"desc"
+        }
+    })
+  return (
+    <div className="p-6">
+    <DataTable columns={columns} data={courses} />
+    </div>
+  );
+};
+
+export default page;
