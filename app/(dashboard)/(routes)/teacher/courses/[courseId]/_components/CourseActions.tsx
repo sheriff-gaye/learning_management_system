@@ -54,7 +54,7 @@ const CourseActions = ({
     try {
       setIsLoading(true);
       await axios.delete(`/api/courses/${courseId}`);
-      toast.success("Chapter deleted");
+      toast.success("Course deleted");
 
       router.refresh();
       router.push(`/teacher/courses`);
