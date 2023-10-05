@@ -2,6 +2,7 @@ import { getChapter } from "@/actions/get-chapters";
 import { Banner } from "@/components/banner";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import { VideoPlayer } from "./_components/VideoPlayer";
 
 const ChapterIdPage = async ({
   params
@@ -46,8 +47,15 @@ const ChapterIdPage = async ({
       )}
       <div className="flex flex-col  max-w-4xl pb-20">
         <div className="p-4">
-            <VideoPlayer chapterId={params.chapterId} title={chapter.title}  courseId={params.courseId} nextChapterId={nextChapter?.id}  playBackId={muxData?.chapterId}  isLocked={isLocked} ComplteOnEnd={completeOnEnd} />
-
+        <VideoPlayer
+            chapterId={params.chapterId}
+            title={chapter.title}
+            courseId={params.courseId}
+            nextChapterId={nextChapter?.id}
+            playbackId={muxData?.playbackId!}
+            isLocked={isLocked}
+            completeOnEnd={completeOnEnd}
+          />
         </div>
 
       </div>

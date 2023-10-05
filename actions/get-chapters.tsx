@@ -5,19 +5,19 @@ interface GetChapterProps {
   userId: string;
   courseId: string;
   chapterId: string;
-}
+};
 
 export const getChapter = async ({
   userId,
+  courseId,
   chapterId,
-  courseId
 }: GetChapterProps) => {
   try {
     const purchase = await db.purchase.findUnique({
       where: {
         userId_courseId: {
           userId,
-          courseId
+          courseId,
         }
       }
     });
@@ -25,45 +25,32 @@ export const getChapter = async ({
     const course = await db.course.findUnique({
       where: {
         isPublished: true,
-        id: courseId
+        id: courseId,
       },
       select: {
-        price: true
+        price: true,
       }
     });
 
     const chapter = await db.chapter.findUnique({
       where: {
+        id: chapterId,
         isPublished: true,
-        id: chapterId
       }
     });
 
     if (!chapter || !course) {
-      throw new Error("Course or Chapter Not Found");
+      throw new Error("Chapter or course not found");
     }
 
     let muxData = null;
     let attachments: Attachment[] = [];
-    let nextCahpeter: Chapter | null = null;
+    let nextChapter: Chapter | null = null;
 
     if (purchase) {
       attachments = await db.attachment.findMany({
         where: {
-          id: courseId
-        }
-      });
-
-      nextCahpeter = await db.chapter.findFirst({
-        where: {
-          courseId: courseId,
-          isPublished: true,
-          position: {
-            gt: chapter?.position
-          }
-        },
-        orderBy:{
-            position:"asc"
+          courseId: courseId
         }
       });
     }
@@ -71,25 +58,44 @@ export const getChapter = async ({
     if (chapter.isFree || purchase) {
       muxData = await db.muxData.findUnique({
         where: {
-          chapterId: chapterId
+          chapterId: chapterId,
+        }
+      });
+
+      nextChapter = await db.chapter.findFirst({
+        where: {
+          courseId: courseId,
+          isPublished: true,
+          position: {
+            gt: chapter?.position,
+          }
+        },
+        orderBy: {
+          position: "asc",
         }
       });
     }
 
-
-    const userProgress=await db.userProgress.findUnique({
-        where:{
-            userId_chapterId:{
-                userId,
-                chapterId
-            }
+    const userProgress = await db.userProgress.findUnique({
+      where: {
+        userId_chapterId: {
+          userId,
+          chapterId,
         }
+      }
     });
 
-
-    return{course,chapter,muxData,purchase,userProgress,attachments,nextCahpeter}
+    return {
+      chapter,
+      course,
+      muxData,
+      attachments,
+      nextChapter,
+      userProgress,
+      purchase,
+    };
   } catch (error) {
-    console.log("[GET CHAPTERS]", error);
+    console.log("[GET_CHAPTER]", error);
     return {
       chapter: null,
       course: null,
@@ -97,7 +103,7 @@ export const getChapter = async ({
       attachments: [],
       nextChapter: null,
       userProgress: null,
-      purchase: null
-    };
+      purchase: null,
+    }
   }
-};
+}
