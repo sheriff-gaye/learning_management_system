@@ -46,7 +46,11 @@ const SiderBarItem = ({ icon: Icon, label, href }: SiderBarItemProps) => {
           isActive && "opacity-100"
         )}
       />
+
+     
     </button>
+
+    
   );
 };
 
