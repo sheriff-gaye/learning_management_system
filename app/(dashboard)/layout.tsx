@@ -1,6 +1,4 @@
 "use client";
-
-import { ThemeProvider } from "@/components/theme-provider";
 import NavBar from "./_components/NavBar";
 import SideBar from "./_components/SideBar";
 
