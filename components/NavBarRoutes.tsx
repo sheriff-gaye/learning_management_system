@@ -44,7 +44,7 @@ const NabBarRoutes = () => {
       <div className="flex  gap-x-2 ml-auto">
     
         {isTeacherPage || isPlayerPage ? (
-          <Link href="/">
+          <Link href="/dashboard">
             <Button variant="ghost" size="sm">
               <LogOut />
               Exit

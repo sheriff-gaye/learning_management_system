@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { BarChart, Compass, Layout, List } from "lucide-react";
+import { BarChart, Cog, Compass, Layout, List, Newspaper } from "lucide-react";
 import SiderBarItem from "./SiderBarItem";
 import { usePathname } from "next/navigation";
 
@@ -9,12 +9,22 @@ const guestRoute = [
   {
     icon: Layout,
     label: "Dashboard",
-    href: "/"
+    href: "/dashboard"
   },
   {
     icon: Compass,
     label: "Browse",
     href: "/search"
+  },
+  {
+    icon: Newspaper,
+    label: "Newsletter",
+    href: "/newsletter"
+  },
+  {
+    icon: Cog,
+    label: "Settings",
+    href: "/settings"
   }
 ];
 
@@ -30,6 +40,8 @@ const teacherRoutes = [
     href: "/teacher/analytics"
   }
 ];
+
+
 
 const SideBarRoutes = () => {
   const pathname = usePathname();
