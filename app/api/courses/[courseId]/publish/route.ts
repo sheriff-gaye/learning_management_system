@@ -1,7 +1,23 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
+
 
 import { db } from "@/lib/db";
+
+
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'sheriffgaye5@gmail.com',
+    pass: 'yeka bmeo vyhy veed',
+  },
+});
+
+
 
 export async function PATCH(
   req: Request,
@@ -48,9 +64,24 @@ export async function PATCH(
       }
     });
 
+
+    const subscribers = await db.newsLetter.findMany();
+    const emailPromises = subscribers.map((subscriber) =>
+      transporter.sendMail({
+        from: '"Course Platform" <your-email@example.com>', // Replace with your email
+        to: subscriber.email,
+        subject: "New Course Published",
+        text: `A new course titled "${course.title}" has been published. Check it out now!`,
+        html: `<p>A new course titled "<strong>${course.title}</strong>" has been published. Check it out now!</p>`,
+      })
+    );
+
+    await Promise.all(emailPromises);
+
+
     return NextResponse.json(publishedCourse);
   } catch (error) {
     console.log("[COURSE_ID_PUBLISH]", error);
     return new NextResponse("Internal Error", { status: 500 });
-  } 
+  }
 }

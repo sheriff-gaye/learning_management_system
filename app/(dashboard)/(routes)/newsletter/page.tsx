@@ -16,14 +16,12 @@ import toast from "react-hot-toast";
 import * as z from "zod";
 
 const formSchema = z.object({
-    email: z.string().min(7, {
-      message: "email is required"
-    })
-  });
+  email: z.string()
+    .min(1, { message: "Email is required" })
+    .email({ message: "Invalid email address" })
+});
 
 const NewsLetterPage = () => {
-
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,15 +31,13 @@ const NewsLetterPage = () => {
   const { isSubmitting, isValid } = form.formState;
   const router = useRouter();
 
-  const onSubmit= async (values: z.infer<typeof formSchema>)=>{
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-
-        await axios.post("/api/newsletter", values);
-        router.refresh();
-        toast.success("You have successfully Subscibed")
-        
-    } catch (error) {
-        toast.error("something when wrong");   
+      await axios.post("/api/newsletter", values);
+      router.refresh();
+      toast.success("You have successfully subscribed");
+    } catch (error:any) {
+      toast.error(error.response?.data || error.message);
     }
   }
 
@@ -55,21 +51,19 @@ const NewsLetterPage = () => {
         <Form {...form}>
           <form className="space-y-8 mt-8" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
-             control={form.control}
+              control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Enter your Email" {...field}  disabled={isSubmitting}/>
+                    <Input placeholder="Enter your Email" {...field} disabled={isSubmitting} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <div className="flex items-center gap-x-2">
-             
-              <Button type="submit" disabled={!isValid || isSubmitting}>Subscribe</Button>
+              <Button type="submit" disabled={!isValid || isSubmitting} variant="destructive">Subscribe</Button>
             </div>
           </form>
         </Form>
