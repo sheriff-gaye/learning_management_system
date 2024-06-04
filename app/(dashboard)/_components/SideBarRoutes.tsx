@@ -21,11 +21,6 @@ const guestRoute = [
     label: "Newsletter",
     href: "/newsletter"
   },
-  {
-    icon: Cog,
-    label: "Settings",
-    href: "/settings"
-  }
 ];
 
 const teacherRoutes = [
