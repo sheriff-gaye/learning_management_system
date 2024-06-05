@@ -2,9 +2,11 @@
 import { redirect } from "next/navigation";
 import { getDashbaordCourses } from "@/actions/get-dashboard-courses";
 import { auth } from "@clerk/nextjs";
-import { CoursesList } from "@/components/courses-list";
+import  {CoursesList}  from "@/components/courses-list";
 import { Clock } from "lucide-react";
 import { InfoCard } from "./_components/InfoCard";
+import { Suspense } from "react";
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default async function Dashboard() {
   const { userId } = auth();
@@ -26,7 +28,9 @@ export default async function Dashboard() {
 
       </div>
 
-      <CoursesList items={[...completedCourses, ...coursesInProgress]}/>
+   
+     <CoursesList items={[...completedCourses, ...coursesInProgress]}/>
+    
 
     </div>
   );

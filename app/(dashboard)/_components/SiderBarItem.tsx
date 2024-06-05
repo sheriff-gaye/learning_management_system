@@ -4,6 +4,7 @@ import { LucideIcon } from "lucide-react";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface SiderBarItemProps {
   icon: LucideIcon;
@@ -53,5 +54,7 @@ const SiderBarItem = ({ icon: Icon, label, href }: SiderBarItemProps) => {
     
   );
 };
+
+
 
 export default SiderBarItem;

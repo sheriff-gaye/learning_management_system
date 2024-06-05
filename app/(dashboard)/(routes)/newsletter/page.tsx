@@ -63,7 +63,7 @@ const NewsLetterPage = () => {
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button type="submit" disabled={!isValid || isSubmitting} variant="destructive">Subscribe</Button>
+              <Button type="submit" disabled={!isValid || isSubmitting} variant="success">Subscribe</Button>
             </div>
           </form>
         </Form>

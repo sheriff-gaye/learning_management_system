@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { db } from '@/lib/db';
 import { Categories } from './_components/Categories';
 import { SearchInput } from '@/components/SearchInput';
 import { getCourses } from '@/actions/get-courses';
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
-import { CoursesList } from '@/components/courses-list';
+import {CoursesList} from '@/components/courses-list';
 
 
 
@@ -44,7 +44,9 @@ const page = async({searchParams}:searchParamsProps) => {
     <div className='p-6 '>
       <Categories items={categories}/>
 
+     
       <CoursesList items={courses}/>
+     
 
     </div>
     </>

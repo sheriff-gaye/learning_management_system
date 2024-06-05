@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { BarChart, Cog, Compass, Layout, List, Newspaper } from "lucide-react";
 import SiderBarItem from "./SiderBarItem";
 import { usePathname } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const guestRoute = [
   {
@@ -21,6 +22,11 @@ const guestRoute = [
     label: "Newsletter",
     href: "/newsletter"
   },
+  {
+    icon: Newspaper,
+    label: "Chatify",
+    href: "/chatify"
+  }
 ];
 
 const teacherRoutes = [
@@ -36,13 +42,45 @@ const teacherRoutes = [
   }
 ];
 
-
-
 const SideBarRoutes = () => {
   const pathname = usePathname();
 
   const isTeacherPage = pathname?.includes("/teacher");
 
+  const [isLoading , setIsLoading]=useState(false);
+
+  useEffect(()=>{
+
+    setIsLoading(true)
+    
+  },[])
+
+  if(!isLoading){
+    return (
+      <>
+        <div className="flex items-center gap-x-2 p-4">
+          <Skeleton className="h-6 w-6 bg-slate-200 rounded-md" />
+          <Skeleton className="h-4 w-1/2 bg-slate-200 rounded-md" />
+        </div>
+        <div className="flex items-center gap-x-2 p-4">
+          <Skeleton className="h-6 w-6 bg-slate-200 rounded-md" />
+          <Skeleton className="h-4 w-1/2 bg-slate-200 rounded-md" />
+        </div>
+        <div className="flex items-center gap-x-2 p-4">
+          <Skeleton className="h-6 w-6 bg-slate-200 rounded-md" />
+          <Skeleton className="h-4 w-1/2 bg-slate-200 rounded-md" />
+        </div>
+        <div className="flex items-center gap-x-2 p-4">
+          <Skeleton className="h-6 w-6 bg-slate-200 rounded-md" />
+          <Skeleton className="h-4 w-1/2 bg-slate-200 rounded-md" />
+        </div>
+      </>
+    );
+  }
+
+  
+
+ 
   const routes = isTeacherPage ? teacherRoutes : guestRoute;
 
   return (
@@ -58,5 +96,6 @@ const SideBarRoutes = () => {
     </div>
   );
 };
+
 
 export default SideBarRoutes;

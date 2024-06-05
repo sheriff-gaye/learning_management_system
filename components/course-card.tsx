@@ -26,8 +26,8 @@ export const CourseCard = ({
   category
 }: CourseCardProps) => {
   return (
-    <Link href={`/courses/${id}`}>
-      <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
+     <Link href={`/courses/${id}`}>
+       <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
         <div className="relative w-full aspect-video rounded-md overflow-hidden">
           <Image
             fill
@@ -63,7 +63,21 @@ export const CourseCard = ({
             </p>
           )}
         </div>
-      </div>
-    </Link>
+      </div> 
+    </Link> 
   )
+
+
 }
+
+
+CourseCard.Skeleton=function CourseCardSkeleton  () {
+  return (
+    <div className="space-y-4 p-3 border rounded-lg animate-pulse h-full">
+      <div className="relative w-full aspect-video rounded-md overflow-hidden bg-slate-200" />
+      <div className="h-6 bg-slate-200 rounded-md" />
+      <div className="h-4 bg-slate-200 rounded-md" />
+      <div className="h-4 bg-slate-200 rounded-md w-1/2" />
+    </div>
+  );
+};
