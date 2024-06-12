@@ -129,7 +129,7 @@ enum UploadStatus {
 }
 
 model File {
-  id   String @id @default(cuid())
+  id   String @id @default(uuid())
   name String
 
   uploadStatus UploadStatus @default(PENDING)
@@ -144,7 +144,7 @@ model File {
 }
 
 model Message {
-  id   String @id @default(cuid())
+  id   String @id @default(uuid())
   text String @db.Text()
 
   isUserMessage Boolean

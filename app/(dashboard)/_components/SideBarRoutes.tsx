@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import { BarChart, Cog, Compass, Layout, List, Newspaper } from "lucide-react";
+import { BarChart, Cog, Compass, Layout, List, MessageSquare, Newspaper } from "lucide-react";
 import SiderBarItem from "./SiderBarItem";
 import { usePathname } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -23,7 +23,7 @@ const guestRoute = [
     href: "/newsletter"
   },
   {
-    icon: Newspaper,
+    icon: MessageSquare,
     label: "Chatify",
     href: "/chatify"
   }

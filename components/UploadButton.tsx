@@ -1,115 +1,138 @@
-'use client'
 
-import { useState } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from './ui/dialog'
-import { Button } from './ui/button'
+"use client";
 
-import Dropzone from 'react-dropzone'
-import { Cloud, File, Loader2 } from 'lucide-react'
-import { Progress } from './ui/progress'
-import { useUploadThing } from '@/lib/uploadthing'
-import { useToast } from './ui/use-toast'
-import { trpc } from '@/app/_trpc/client'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Dropzone from "react-dropzone";
+import { Cloud, File, Loader2 } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import { Progress } from "./ui/progress";
+import { useUploadThing } from '@/lib/uploadthing';
 
-const UploadDropzone = ({
+const UploadDropZone: React.FC<{ isSubscribed: boolean; userId: string }> = ({
   isSubscribed,
-}: {
-  isSubscribed: boolean
+  userId,
 }) => {
-  const router = useRouter()
-
-  const [isUploading, setIsUploading] =
-    useState<boolean>(false)
-  const [uploadProgress, setUploadProgress] =
-    useState<number>(0)
-  const { toast } = useToast()
+  const router = useRouter();
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadThingKey, setUploadThingKey] = useState<string | undefined>(
+    undefined
+  );
 
   const { startUpload } = useUploadThing(
-    isSubscribed ? 'proPlanUploader' : 'freePlanUploader'
-  )
+    isSubscribed ? "proPlanPdfUploader" : "freePlanPdfUploader"
+  );
 
-  const { mutate: startPolling } = trpc.getFile.useMutation(
-    {
-      onSuccess: (file) => {
-        router.push(`/dashboard/${file.id}`)
-      },
-      retry: true,
-      retryDelay: 500,
+  useEffect(() => {
+    if (uploadThingKey) {
+      getRecursionFile();
     }
-  )
 
+    async function getRecursionFile() {
+      const res = await fetch(
+        `/api/file?userId=${userId}&key=${uploadThingKey}`,
+        {
+          method: "GET",
+        }
+      );
+      if (res.status === 400) return toast.error("Invalid request");
+      if (res.status === 404) return getRecursionFile();
+      if (res.status === 200) {
+        const file = await res.json();
+        router.push(`/chatify/${file.id}`);
+      }
+    }
+  }, [uploadThingKey, userId]);
+
+  /**
+   *
+   * @returns {number} interval
+   * @description Start a simulated progress bar
+   */
   const startSimulatedProgress = () => {
-    setUploadProgress(0)
+    setUploadProgress(0);
 
     const interval = setInterval(() => {
       setUploadProgress((prevProgress) => {
         if (prevProgress >= 95) {
-          clearInterval(interval)
-          return prevProgress
+          clearInterval(interval);
+          return prevProgress;
         }
-        return prevProgress + 5
-      })
-    }, 500)
+        return prevProgress + 5;
+      });
+    }, 500);
 
-    return interval
-  }
+    return interval;
+  };
 
   return (
     <Dropzone
-      multiple={false}
       onDrop={async (acceptedFile) => {
-        setIsUploading(true)
+        setIsUploading(true);
+        const progressInterval = startSimulatedProgress();
 
-        const progressInterval = startSimulatedProgress()
+        //check to see if the file has not been uploaded already by the user
+        const fileName = acceptedFile[0].name;
+        const checkFile = await fetch(
+          `/api/file?userId=${userId}&name=${fileName}`,
+          {
+            method: "GET",
+          }
+        );
+        if (checkFile.status === 200) {
+          const file = await checkFile.json();
+          clearInterval(progressInterval);
+          setIsUploading(false);
+          toast.error("This file already Exit");
+          router.refresh();
+          return;
+        }
 
-        // handle file uploading
-        const res = await startUpload(acceptedFile)
+        //Immediately make a request to the server to start the upload
+        const res = await startUpload(acceptedFile);
 
+        // //If the request fails, show an error message
         if (!res) {
-          return toast({
-            title: 'Something went wrong',
-            description: 'Please try again later',
-            variant: 'destructive',
-          })
+          setIsUploading(false);
+          return toast.error("Error uploading file");
         }
 
-        const [fileResponse] = res
+        //If the request is successful, get the response
+        const [fileResponse] = res;
 
-        const key = fileResponse?.key
+        const key = fileResponse?.key;
+        if (!key) return toast.error("Something went wrong getting upload key");
 
-        if (!key) {
-          return toast({
-            title: 'Something went wrong',
-            description: 'Please try again later',
-            variant: 'destructive',
-          })
-        }
+        clearInterval(progressInterval);
+        setIsUploading(false);
 
-        clearInterval(progressInterval)
-        setUploadProgress(100)
-
-        startPolling({ key })
-      }}>
+        // /**
+        //  * @description Poll the server to check if the pdf is loaded successfully
+        //  * after the upload is complete
+        //  * redirect to the pdf page
+        //  */
+        setUploadThingKey(key);
+      }}
+      multiple={false}
+    >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
         <div
           {...getRootProps()}
-          className='border h-64 m-4 border-dashed border-gray-300 rounded-lg'>
+          className='border h-64 m-4 border-dashed border-gray-300 rounded-lg'
+        >
           <div className='flex items-center justify-center h-full w-full'>
             <label
               htmlFor='dropzone-file'
-              className='flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100'>
+              className='flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100'
+            >
               <div className='flex flex-col items-center justify-center pt-5 pb-6'>
                 <Cloud className='h-6 w-6 text-zinc-500 mb-2' />
                 <p className='mb-2 text-sm text-zinc-700'>
-                  <span className='font-semibold'>
-                    Click to upload
-                  </span>{' '}
-                  or drag and drop
+                  <span className='font-semibold'>Click to upload</span> or drag
+                  and drop
                 </p>
                 <p className='text-xs text-zinc-500'>
                   PDF (up to {isSubscribed ? "16" : "4"}MB)
@@ -127,14 +150,10 @@ const UploadDropzone = ({
                 </div>
               ) : null}
 
-              {isUploading ? (
+              {isUploading && (
                 <div className='w-full mt-4 max-w-xs mx-auto'>
                   <Progress
-                    indicatorColor={
-                      uploadProgress === 100
-                        ? 'bg-green-500'
-                        : ''
-                    }
+                    color={uploadProgress === 100 ? "green" : ""}
                     value={uploadProgress}
                     className='h-1 w-full bg-zinc-200'
                   />
@@ -145,48 +164,44 @@ const UploadDropzone = ({
                     </div>
                   ) : null}
                 </div>
-              ) : null}
-
-              <input
-                {...getInputProps()}
-                type='file'
-                id='dropzone-file'
-                className='hidden'
-              />
+              )}
             </label>
           </div>
+          <input
+            {...getInputProps()}
+            type='file'
+            aria-hidden='true'
+            id='dropzone-file'
+            className='hidden'
+          />
         </div>
       )}
     </Dropzone>
-  )
-}
+  );
+};
 
-const UploadButton = ({
-  isSubscribed,
-}: {
-  isSubscribed: boolean
-}) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+export const UploadButton: React.FC<{
+  userId: string;
+  isSubscribed: boolean;
+}> = ({ userId, isSubscribed }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Dialog
       open={isOpen}
       onOpenChange={(v) => {
         if (!v) {
-          setIsOpen(v)
+          setIsOpen(v);
         }
-      }}>
-      <DialogTrigger
-        onClick={() => setIsOpen(true)}
-        asChild>
+      }}
+    >
+      <DialogTrigger onClick={() => setIsOpen(true)} asChild>
         <Button>Upload PDF</Button>
       </DialogTrigger>
 
       <DialogContent>
-        <UploadDropzone isSubscribed={isSubscribed} />
+        <UploadDropZone userId={userId} isSubscribed={isSubscribed} />
       </DialogContent>
     </Dialog>
-  )
-}
-
-export default UploadButton
+  );
+};
