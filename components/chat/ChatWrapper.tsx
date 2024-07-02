@@ -89,7 +89,7 @@ export const ChatWrapper: React.FC<{
               pages per PDF.
             </p> */}
             <Link
-              href='/dashboard'
+              href='/chatify'
               className={buttonVariants({
                 variant: "secondary",
                 className: "mt-4",

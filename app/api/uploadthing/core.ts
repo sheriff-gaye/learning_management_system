@@ -6,12 +6,9 @@ import { revalidatePath } from "next/cache";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { OpenAIEmbeddings } from "@langchain/openai";
-import { PLANS } from "@/lib/stripe";
 import { UploadThingError } from 'uploadthing/server';
 import { createClient } from "@supabase/supabase-js";
 import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase';
-
-
 
 const privateKey = process.env.SUPABASE_PRIVATE_KEY;
 if (!privateKey) throw new Error(`Expected env var SUPABASE_PRIVATE_KEY`);
@@ -19,28 +16,57 @@ if (!privateKey) throw new Error(`Expected env var SUPABASE_PRIVATE_KEY`);
 const url = process.env.SUPABASE_URL;
 if (!url) throw new Error(`Expected env var SUPABASE_URL`);
 
-
 const f = createUploadthing();
 
 const middleware = async () => {
- 
-  const {userId} = auth();
- 
+  const { userId } = auth();
   if (!userId) throw new UploadThingError("Unauthorized");
-
-  // const subscriptionPlan = await getUserSubscriptionPlan();
 
   return { userId: userId };
 };
 
+const getUserQuestionLimit = async (userId: string) => {
+  let userQuestionLimit = await db.quesLimit.findUnique({
+    where: { userId },
+  });
+
+  if (!userQuestionLimit) {
+    userQuestionLimit = await db.quesLimit.create({
+      data: { userId, count: 0 },
+    });
+  }
+
+  const oneDayAgo = new Date();
+  oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+
+  if (!userQuestionLimit.updatedAt || new Date(userQuestionLimit.updatedAt) < oneDayAgo) {
+    await resetUserQuestionCount(userId);
+    userQuestionLimit.count = 0;
+  }
+
+  return userQuestionLimit;
+};
+
+const incrementUserQuestionCount = async (userId: string) => {
+  await db.quesLimit.update({
+    where: { userId },
+    data: { count: { increment: 1 } },
+  });
+};
+
+const resetUserQuestionCount = async (userId: string) => {
+  await db.quesLimit.update({
+    where: { userId },
+    data: { count: 0 },
+  });
+};
 
 const handleAuth = () => {
   const { userId } = auth();
   const isAuthorized = isTeacher(userId);
   if (!userId || !isAuthorized) throw new Error("Unauthorized");
-  return { userId }
-}
-
+  return { userId };
+};
 
 const UpdateFile = async (status: UploadStatus, fileId: string) => {
   await db.file.update({
@@ -52,7 +78,6 @@ const UpdateFile = async (status: UploadStatus, fileId: string) => {
     },
   });
 };
-
 
 const onUploadComplete = async ({
   metadata,
@@ -68,7 +93,6 @@ const onUploadComplete = async ({
     readonly key: string;
   };
 }) => {
-
   const isFileExist = await db.file.findFirst({
     where: {
       key: file.key,
@@ -83,23 +107,17 @@ const onUploadComplete = async ({
       key: file.key,
       url: `https://utfs.io/f/${file.key}`,
       name: file.name,
-      uploadStatus: "PROCESSING",
+      uploadStatus: "SUCCESS",
     },
   });
 
   revalidatePath("/chatify");
 
-
   try {
-    // generate some pages so supabase can index.
     const response = await fetch(`https://utfs.io/f/${file.key}`);
     const blob = await response.blob();
 
-    //Get the pdf response to a memory
     const loader = new PDFLoader(blob);
-
-    //Extract the page level text of the pdf
-    //loading the content of each page in the PDF document into pageLevelDocs.
     let pageLevelDocs = await loader.load();
     pageLevelDocs = pageLevelDocs.map((page) => {
       return {
@@ -107,8 +125,6 @@ const onUploadComplete = async ({
         metadata: { ...page.metadata, fileId: createdFile.id },
       };
     });
-
-    const pageAmount = pageLevelDocs.length;
 
     const embeddings = new OpenAIEmbeddings({
       openAIApiKey: process.env.OPENAI_API_KEY,
@@ -122,23 +138,16 @@ const onUploadComplete = async ({
       queryName: "match_documents",
     });
 
-    
-
-   
-  }
-
-
-  catch (error) {
+    await incrementUserQuestionCount(metadata.userId!);
+    // Open PDF viewer
+    window.open(`https://utfs.io/f/${file.key}`, '_blank');
+  } catch (error) {
     await UpdateFile("FAILED", createdFile.id);
-
+    console.error("Upload failed:", error);
   }
-
-
-}
-
+};
 
 export const ourFileRouter = {
-
   courseImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     .middleware(() => handleAuth())
     .onUploadComplete(() => { }),
@@ -154,13 +163,6 @@ export const ourFileRouter = {
   freePlanPdfUploader: f({ pdf: { maxFileSize: "4MB" } })
     .middleware(middleware)
     .onUploadComplete(onUploadComplete),
-
-  proPlanPdfUploader: f({ pdf: { maxFileSize: "16MB" } })
-
-    .middleware(middleware)
-    .onUploadComplete( onUploadComplete),
-
 } satisfies FileRouter;
-
 
 export type OurFileRouter = typeof ourFileRouter;

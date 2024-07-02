@@ -5,6 +5,7 @@ import {
     CardTitle
   } from "@/components/ui/card";
   import { formatPrice } from "@/lib/format";
+import { Skeleton } from '@/components/ui/skeleton';
   
   interface DataCardProps {
     value: number;
@@ -32,3 +33,10 @@ import {
      </Card>
     )
   }
+
+
+DataCard.Skeleton=function DataCardSkeleton(){
+  return(
+    <Skeleton  className="w-[75%] h-14"/>
+  )
+}

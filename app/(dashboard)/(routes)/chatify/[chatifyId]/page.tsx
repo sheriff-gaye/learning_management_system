@@ -17,8 +17,11 @@ const Page = async ({ params }: IProps) => {
     return redirect("/sign-up");
   }
 
-  const file = await getFile(userId!, chatifyId);
+
+
+  const file = await getFile(userId, chatifyId);
   if (!file) return notFound();
+
 
   return (
     <main className='flex-1 justify-between flex flex-col h-[calc(100dvh-3.5rem)]'>

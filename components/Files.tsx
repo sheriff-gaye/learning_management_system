@@ -1,12 +1,21 @@
 
 import { getFiles } from "@/actions/get-files";
-import { Ghost, MessageSquare, Plus } from "lucide-react";
+import { Ghost, Loader, MessageSquare, Plus } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { DeleteFileButton } from "./DeleteFileButton";
 
 export const Files: React.FC<{ userId: string }> = async ({ userId }) => {
   const files = await getFiles(userId);
+
+
+  if (!files){
+    return(
+      <div>
+        <Loader className="h-5 w-5 animate-spin"/>
+      </div>
+    )
+  }
 
   return (
     <>

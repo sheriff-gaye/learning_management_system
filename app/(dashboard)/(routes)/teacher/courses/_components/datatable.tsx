@@ -24,6 +24,8 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle, PlusCircleIcon } from "lucide-react";
+import { Skeleton } from '@/components/ui/skeleton';
+import { DataTableSkeleton } from "./DataTableSkeleton";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -53,6 +55,14 @@ export function DataTable<TData, TValue>({
       columnFilters
     }
   });
+  const [loading ,isLoading]=React.useState(false)
+  React.useEffect(()=>{
+    isLoading(true);
+
+  },[])
+  if(!loading){
+    return <DataTableSkeleton/>
+  }
 
   return (
     <div>
@@ -143,3 +153,5 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
+
+
