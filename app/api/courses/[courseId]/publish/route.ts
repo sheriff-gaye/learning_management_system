@@ -1,21 +1,8 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-
-
 import { db } from "@/lib/db";
-
-
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: 'sheriffgaye5@gmail.com',
-    pass: 'yeka bmeo vyhy veed',
-  },
-});
+import { transporter } from "@/components/email/transporter";
 
 
 
@@ -68,7 +55,7 @@ export async function PATCH(
     const subscribers = await db.newsLetter.findMany();
     const emailPromises = subscribers.map((subscriber) =>
       transporter.sendMail({
-        from: '"Course Platform" <your-email@example.com>', // Replace with your email
+        from: '"Course Platform" <sheriffgaye5@gmail.com>', 
         to: subscriber.email,
         subject: "New Course Published",
         text: `A new course titled "${course.title}" has been published. Check it out now!`,

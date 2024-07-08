@@ -25,14 +25,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PlusCircle, PlusCircleIcon } from "lucide-react";
 import { Skeleton } from '@/components/ui/skeleton';
-import { DataTableSkeleton } from "./DataTableSkeleton";
+import { DataTableSkeleton } from "../../courses/_components/DataTableSkeleton";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function NewsDataTable<TData, TValue>({
   columns,
   data
 }: DataTableProps<TData, TValue>) {
@@ -69,18 +69,12 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4 justify-between">
         <Input
           placeholder="Search"
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("email")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <Link href="/teacher/create">
-            <Button>
-                <PlusCircle className="mr-2 w-4 h-4"/>
-                New Course
-            </Button>
-        </Link>
       </div>
       <div className="rounded-md border">
         <Table>

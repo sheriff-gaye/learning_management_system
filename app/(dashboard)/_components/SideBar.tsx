@@ -3,7 +3,6 @@ import React, { Suspense } from "react";
 import Logo from "./Logo";
 import SideBarRoutes from "./SideBarRoutes";
 
-import toast from "react-hot-toast";
 
 const SideBar = () => {
   return (

@@ -39,8 +39,7 @@ export const LandingHero = () => {
 
         <ClerkLoaded>
           <SignedOut>
-            <SignUpButton
-              mode="modal"
+            <SignInButton
               afterSignInUrl="/dashboard"
               afterSignUpUrl="/dashboard"
             >
@@ -50,19 +49,6 @@ export const LandingHero = () => {
                 className="md:text-lg  p-4 md:p-6  rounded-full font-semibold"
               >
                 Get Started
-              </Button>
-            </SignUpButton>
-            <SignInButton
-              mode="modal"
-              afterSignInUrl="/dashboard"
-              afterSignUpUrl="/dashboard"
-            >
-              <Button
-                size="lg"
-                variant="destructive"
-                className="md:text-lg  p-4 md:p-6  rounded-full font-semibold"
-              >
-                I already have an account
               </Button>
             </SignInButton>
           </SignedOut>

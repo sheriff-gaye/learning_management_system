@@ -1,12 +1,12 @@
-"use client"
+
 
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
-  const course = await db.course.findUnique({
+  const course = await db?.course?.findUnique({
     where: {
-      id: params.courseId
+      id: params?.courseId
     },
     include: {
       chapters: {

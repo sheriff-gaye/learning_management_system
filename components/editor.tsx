@@ -18,7 +18,7 @@ export const Edior = ({ onChange, value }: EditorProps) => {
 
   return (
     <div className="bg-white">
-      <ReactQuill theme="snow" value={value} onChange={onChange} />
+      <ReactQuill theme="snow" className="dark:bg-black" value={value} onChange={onChange} />
     </div>
   );
 };

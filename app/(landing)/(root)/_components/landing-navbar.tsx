@@ -6,9 +6,15 @@ import { ClerkLoaded, ClerkLoading, useAuth } from "@clerk/nextjs";
 import { useTheme } from "next-themes";
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
-import { Loader, Moon, Sun } from "lucide-react"
+import { Loader, MoonIcon, SunIcon } from "lucide-react"
 import Link from "next/link";
 import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 
 const font = Montserrat({ weight: "600", subsets: ["latin"] });
@@ -30,7 +36,7 @@ const LandingNavBar = () => {
       <Link href="/" className="flex items-center">
         <div className="relative h-8 w-8 mr-4 gap-3">
           <Image src="/logo.svg" alt="logo" fill />
-          <h2 className="text-2xl font-bold ml-9">PluseAI</h2>
+          <h2 className="text-xl font-bold ml-9">SkillsPluse</h2>
         </div>
         <h1
           className={cn("text-2xl  font-bold text-white", font.className)}
@@ -42,16 +48,33 @@ const LandingNavBar = () => {
         <Loader className="h-4 w-4 animate-spin"/>
        </ClerkLoading>
        <ClerkLoaded>
-       <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+       <Link href={isSignedIn ? "/dashboard" : "/sign-in"}>
           <Button variant="success" className="rounded-full">
-            Get Stared
+            Login
           </Button>
         </Link>
        </ClerkLoaded>
         <div>
-        <button onClick={onClick} className="flex items-center transition pt-1.5">
-            {isSunIcon ? <Moon size={24} /> : <Sun size={24} />}
-          </button>
+        <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
         </div>
       </div>
     </nav>

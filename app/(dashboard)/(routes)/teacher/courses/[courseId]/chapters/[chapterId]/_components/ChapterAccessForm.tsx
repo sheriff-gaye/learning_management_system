@@ -90,7 +90,7 @@ export const ChapterAccessForm = ({
         >
 
             {initialData.isFree ?(
-                <>This cahpter is free for review</>
+                <>This chapter is free for review</>
             ): (<>This chapter is not free for review</>)}
          
         </p>

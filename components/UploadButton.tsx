@@ -196,7 +196,7 @@ export const UploadButton: React.FC<{
       }}
     >
       <DialogTrigger onClick={() => setIsOpen(true)} asChild>
-        <Button>Upload PDF</Button>
+        <Button variant="default" size="lg" className="dark:text-white">Upload PDF</Button>
       </DialogTrigger>
 
       <DialogContent>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import { BarChart, Cog, Compass, Layout, List, MessageSquare, Newspaper } from "lucide-react";
+import { BarChart, Cog, Compass, Layout, List, MessageSquare, Newspaper, NewspaperIcon } from "lucide-react";
 import SiderBarItem from "./SiderBarItem";
 import { usePathname } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -39,6 +39,11 @@ const teacherRoutes = [
     icon: BarChart,
     label: "Analytics",
     href: "/teacher/analytics"
+  },
+  {
+    icon: NewspaperIcon,
+    label: "NewsLetter",
+    href: "/teacher/newsletter"
   }
 ];
 

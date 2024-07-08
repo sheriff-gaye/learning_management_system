@@ -98,6 +98,7 @@ export const DescriptionForm = ({
                       disabled={isSubmitting}
                       placeholder="e.g. About This Course ..."
                       {...field}
+                      className="dark:text-black"
                     />
                   </FormControl>
                   <FormMessage />
