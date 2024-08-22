@@ -9,19 +9,15 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lingo",
+  title: "EduCarft",
   description: "Learn with AI"
 };
 
-function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/logo.svg" />
+        <link rel="icon" href="/logo.png" />
       </head>
       <body>
         <ClerkProvider>

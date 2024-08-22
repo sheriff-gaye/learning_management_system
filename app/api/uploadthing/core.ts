@@ -132,6 +132,8 @@ const onUploadComplete = async ({
 
     const client = createClient(url, privateKey);
 
+    console.log("client_key",client)
+
     await SupabaseVectorStore.fromDocuments(pageLevelDocs, embeddings, {
       client,
       tableName: "documents",

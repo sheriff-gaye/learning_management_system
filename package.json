@@ -10,7 +10,9 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.31.2",
+    "@clerk/nextjs": "^4.31.3",
+    "@clerk/themes": "^2.1.10",
+    "@google/generative-ai": "^0.14.1",
     "@hello-pangea/dnd": "^16.3.0",
     "@hookform/resolvers": "^3.3.1",
     "@langchain/community": "^0.2.9",
@@ -32,6 +34,7 @@
     "@supabase/supabase-js": "^2.43.4",
     "@tanstack/react-query": "^5.40.1",
     "@tanstack/react-table": "^8.10.3",
+    "@toast-ui/react-editor": "^3.2.3",
     "@uploadthing/react": "^6.6.0",
     "axios": "^1.5.1",
     "class-variance-authority": "^0.7.0",
@@ -56,6 +59,7 @@
     "react-markdown": "^9.0.1",
     "react-pdf": "^9.0.0",
     "react-quill": "^2.0.0",
+    "react-resize-detector": "^11.0.1",
     "recharts": "^2.8.0",
     "simplebar-react": "^3.2.5",
     "stripe": "^13.9.0",

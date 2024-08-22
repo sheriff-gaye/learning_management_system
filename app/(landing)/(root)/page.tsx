@@ -1,20 +1,25 @@
-"use client"
+"use client";
 
-import { LandingContent } from "./_components/landing-content"
-import { LandingHero } from "./_components/landing-hero"
-import LandingNavBar from "./_components/landing-navbar"
+import Footer from "./_components/footer";
+import { LandingContent } from "./_components/landing-content";
+import { LandingHero } from "./_components/landing-hero";
+import LandingNavBar from "./_components/landing-navbar";
+import ProductShowCase from "./_components/product-showcase";
+import CTA from "./_components/cta";
 
-const LandingPage=()=>{
+const LandingPage = () => {
+  return (
+    <div className="h-full">
+      <LandingNavBar />
+      <LandingHero />
+      <ProductShowCase />
+      <LandingContent />
+      <CTA/>
+     
+      <Footer />
+  
+    </div>
+  );
+};
 
-
-    return(
-        <div className="h-full">
-            <LandingNavBar/>
-            <LandingHero/>
-            <LandingContent/>
-          
-        </div>
-    )
-}
-
-export default LandingPage
+export default LandingPage;

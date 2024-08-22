@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-
 const testimonials = [
   {
     name: "Joel",
@@ -32,22 +31,30 @@ const testimonials = [
 ];
 
 export const LandingContent = () => {
+  const firstSlice = testimonials.slice(0, 3);
+  const secondSlice = testimonials.slice(3, 6);
+  const thirdSlice = testimonials.slice(6, 9);
+
   return (
-    <div className="px-10">
-      <h2 className="text-center text-4xl text-black font-extrabold mb-1">
-        {/* Testimonials */}
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="px-10 py-[8.6rem]">
+      <div className="flex justify-center flex-col py-[3rem]">
+        <h2 className="text-center text-4xl  font-extrabold mb-3">
+          Testimonials
+        </h2>
+        <p className="text-center">what our users say</p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 ">
         {testimonials.map((item) => (
           <Card
             key={item.description}
-            className="bg-[#192339] border-none text-white"
+            className="shadow-md   bg-gradient-to-r bg-gray-800 text-white"
           >
+            {" "}
             <CardHeader>
               <CardTitle className="flex items-center gap-x-2">
                 <div>
                   <p className="text-lg">{item.name}</p>
-                  <p className="text-zinc-400 text-sm">{item.title}</p>
+                  <p className="text-sm">{item.title}</p>
                 </div>
               </CardTitle>
               <CardContent className="pt-3 px-0">
