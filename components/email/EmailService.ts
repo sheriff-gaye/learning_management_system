@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import handlebars from 'handlebars/runtime'; // Ensure you're using runtime version
+import handlebars from 'handlebars/runtime'; 
 import fs from 'fs';
 import path from 'path';
 import { transporter } from './transporter';

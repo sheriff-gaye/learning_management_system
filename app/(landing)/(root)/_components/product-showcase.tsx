@@ -23,7 +23,7 @@ const ProductShowCase = () => {
           alt="product"
           width={1500}
           height={1500}
-          className="rounded-lg border shadow-md"
+          className="rounded-lg border shadow-xl"
         />
       </div>
     </div>

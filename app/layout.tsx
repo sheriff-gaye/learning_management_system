@@ -20,18 +20,20 @@ function RootLayout({ children }: { children: React.ReactNode }) {
         <link rel="icon" href="/logo.png" />
       </head>
       <body>
-        <ClerkProvider>
-          <ToastProvider />
-          <ConfettiProvider />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </ClerkProvider>
+        <main>
+          <ClerkProvider>
+            <ToastProvider />
+            <ConfettiProvider />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </ClerkProvider>
+        </main>
       </body>
     </html>
   );

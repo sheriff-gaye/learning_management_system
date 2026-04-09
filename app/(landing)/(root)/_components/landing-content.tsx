@@ -49,7 +49,7 @@ export const LandingContent = () => {
             key={item.description}
             className="shadow-md   bg-gradient-to-r bg-gray-800 text-white"
           >
-            {" "}
+            
             <CardHeader>
               <CardTitle className="flex items-center gap-x-2">
                 <div>

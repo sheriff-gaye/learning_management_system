@@ -10,7 +10,6 @@ import { ChapterDescriptionForm } from "./_components/ChapterDescripton";
 import { ChapterAccessForm } from "./_components/ChapterAccessForm";
 import { ChapterVideoForm } from "./_components/ChapterVideoForm";
 import { Banner } from "@/components/banner";
-import { boolean } from "zod";
 import ChapterActions from "./_components/ChapterActions";
 
 const CourseChapter = async ({
