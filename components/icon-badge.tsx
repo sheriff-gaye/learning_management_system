@@ -8,8 +8,8 @@ const backgroundVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-sky-100",
-        success: "bg-emerald-100",
+        default: "bg-sky-500/10",
+        success: "bg-emerald-500/10",
       },
       size: {
         default: "p-2",
@@ -28,8 +28,8 @@ const iconVariants = cva(
   {
     variants: {
       variant: {
-        default: "text-sky-700",
-        success: "text-emerald-700",
+        default: "text-sky-600 dark:text-sky-400",
+        success: "text-emerald-600 dark:text-emerald-400",
       },
       size: {
         default: "h-8 w-8",

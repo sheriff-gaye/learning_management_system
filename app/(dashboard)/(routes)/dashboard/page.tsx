@@ -1,12 +1,9 @@
-
 import { redirect } from "next/navigation";
 import { getDashbaordCourses } from "@/actions/get-dashboard-courses";
-import { auth } from "@clerk/nextjs";
-import  {CoursesList}  from "@/components/courses-list";
-import { Clock } from "lucide-react";
+import { auth, currentUser } from "@clerk/nextjs";
+import { CoursesList } from "@/components/courses-list";
+import { CheckCircle, Clock } from "lucide-react";
 import { InfoCard } from "./_components/InfoCard";
-import { Suspense } from "react";
-import { Skeleton } from '@/components/ui/skeleton';
 
 export default async function Dashboard() {
   const { userId } = auth();
@@ -15,23 +12,28 @@ export default async function Dashboard() {
     return redirect("/");
   }
 
-  const { completedCourses, coursesInProgress } = await getDashbaordCourses(userId);
-
+  const [user, { completedCourses, coursesInProgress }] = await Promise.all([
+    currentUser(),
+    getDashbaordCourses(userId),
+  ]);
 
   return (
-    <div className="p-6  space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2  gap-4">
-       <InfoCard icon={Clock} label="In Progress"  numberOfItems={coursesInProgress.length}/>
-       <InfoCard icon={Clock} label="Completed"  numberOfItems={completedCourses.length} variant="success"/>
-
-
-
+    <div className="p-6 space-y-8">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Welcome back{user?.firstName ? `, ${user.firstName}` : ""}
+        </h1>
+        <p className="text-muted-foreground mt-1">
+          Here's what's happening with your courses.
+        </p>
       </div>
 
-   
-     <CoursesList items={[...completedCourses, ...coursesInProgress]}/>
-    
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <InfoCard icon={Clock} label="In Progress" numberOfItems={coursesInProgress.length} />
+        <InfoCard icon={CheckCircle} label="Completed" numberOfItems={completedCourses.length} variant="success" />
+      </div>
 
+      <CoursesList items={[...completedCourses, ...coursesInProgress]} />
     </div>
   );
 }

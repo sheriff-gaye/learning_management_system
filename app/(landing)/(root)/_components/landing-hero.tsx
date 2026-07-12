@@ -1,66 +1,81 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  ClerkLoaded,
-  ClerkLoading,
-  SignedIn,
-  useAuth,
-  UserButton
-} from "@clerk/nextjs";
-import { Loader, PlayCircle } from "lucide-react";
+import { SignedIn, SignedOut, useAuth } from "@clerk/nextjs";
+import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Typewriter from "typewriter-effect";
 
 export const LandingHero = () => {
   const { isSignedIn } = useAuth();
-  return (
-    <div className=" py-36 text-center space-y-5">
-      <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl  space-y-5 font-extrabold">
-        <Typewriter
-          options={{
-            strings: [
-              "AI-Driven Learning Modules",
-              "Real-Time Progress Tracking",
-              "Personalized Learning Paths"
-            ],
-            autoStart: true,
-            loop: true,
-            delay: 75,
-            deleteSpeed: 50 
-          }}
-        />
-        <div className="text-transparent  bg-clip-text bg-gradient-to-r  p-2  from-green-400 to-green-600">
-          Learning Management Platform
-        </div>
-      </div>
-      <div className=" flex justify-center  md:text-xl px-[10rem]">
-        Embark on a transformative learning journey with our state of the art
-        AI-driven platform. Experience personalized education tailored to your
-        needs. Unlock a world of knowledge and skills, empowering you to thrive
-        in today's dynamic landscape. Join our community and revolutionize the
-        way you learn!
-      </div>
-      <div className="flex gap-x-2  justify-center">
-        <Button
-          size="lg"
-          variant="outline"
-          className="md:text-lg  p-4 md:p-6  rounded-full font-semibold"
-        >
-          <PlayCircle className="mr-2" />
-          Get Started
-        </Button>
 
-        <SignedIn>
-          <Button
-            size="lg"
-            variant="default"
-            asChild
-            className="md:text-lg  p-4 md:p-6  rounded-full font-semibold"
-          >
-            <Link href="/dashboard">Continue Learning</Link>
-          </Button>
-        </SignedIn>
+  return (
+    <div className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10 flex justify-center">
+        <div className="h-[36rem] w-[36rem] -translate-y-1/3 rounded-full bg-primary/20 blur-[120px]" />
+      </div>
+
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 py-24 text-center sm:py-32">
+        <Badge
+          variant="outline"
+          className="gap-x-1.5 border-primary/30 bg-primary/5 text-primary"
+        >
+          <Sparkles className="h-3.5 w-3.5" />
+          AI-powered learning, reimagined
+        </Badge>
+
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
+          <span className="block min-h-[1.2em] bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent">
+            <Typewriter
+              options={{
+                strings: [
+                  "AI-Driven Learning Modules",
+                  "Real-Time Progress Tracking",
+                  "Personalized Learning Paths"
+                ],
+                autoStart: true,
+                loop: true,
+                delay: 75,
+                deleteSpeed: 50
+              }}
+            />
+          </span>
+          <span className="mt-2 block">for the modern learner</span>
+        </h1>
+
+        <p className="max-w-2xl text-balance text-base text-muted-foreground sm:text-lg">
+          Embark on a transformative learning journey with a state-of-the-art
+          AI-driven platform. Get personalized courses, real-time feedback,
+          and the tools to master new skills at your own pace.
+        </p>
+
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <SignedIn>
+            <Button size="lg" asChild className="rounded-full px-8 font-semibold">
+              <Link href="/dashboard">
+                Continue Learning
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </SignedIn>
+          <SignedOut>
+            <Button size="lg" asChild className="rounded-full px-8 font-semibold">
+              <Link href="/sign-up">
+                Get Started Free
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              asChild
+              className="rounded-full px-8 font-semibold"
+            >
+              <Link href="/sign-in">Sign In</Link>
+            </Button>
+          </SignedOut>
+        </div>
       </div>
     </div>
   );

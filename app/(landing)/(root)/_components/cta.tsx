@@ -1,31 +1,29 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
-import { redirect } from "next/navigation";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const CTA = () => {
-  const onClick = () => {
-    redirect("/sign-up");
-  };
   return (
-    <div className="flex flex-col items-center gap-6 text-center bg-gradient-to-r from-green-500 to-green-700 p-8 rounded-lg shadow-lg mb-[6rem]">
-      <div>
-        <h2 className="text-4xl font-bold text-white mt-4">
+    <div className="mx-auto mb-24 max-w-6xl px-6">
+      <div className="relative flex flex-col items-center gap-5 overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-emerald-700 px-8 py-16 text-center shadow-xl">
+        <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+
+        <h2 className="text-3xl font-bold text-white sm:text-4xl">
           Unlock Your Potential
         </h2>
-        <h3 className="text-2xl text-white mb-4">
-          Join Our LMS and Learn Smarter
-        </h3>
-      </div>
-      <p className="max-w-2xl text-lg text-white">
-        Elevate your skills with our AI-powered Learning Management System.
-        Whether you're starting out or looking to advance, our platform offers
-        tailored content to help you succeed.
-      </p>
+        <p className="text-lg text-white/90">Join our LMS and learn smarter</p>
+        <p className="max-w-xl text-sm text-white/80 sm:text-base">
+          Elevate your skills with our AI-powered Learning Management System.
+          Whether you're starting out or looking to advance, our platform
+          offers tailored content to help you succeed.
+        </p>
 
-      <div>
-        <Button variant="secondary" size="lg" onClick={onClick}>
-          Sign Up for Free
+        <Button variant="secondary" size="lg" asChild className="mt-2 rounded-full font-semibold">
+          <Link href="/sign-up">
+            Sign Up for Free
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
         </Button>
       </div>
     </div>

@@ -32,13 +32,11 @@ export const SearchInput = () => {
 
   return (
     <div className="relative">
-      <Search
-        className="h-4 w-4 absolute top-3 left-3 text-slate-600"
-      />
+      <Search className="h-4 w-4 absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground" />
       <Input
         onChange={(e) => setValue(e.target.value)}
         value={value}
-        className="w-full md:w-[300px] pl-9 rounded-full  focus-visible:ring-slate-200"
+        className="w-full md:w-[300px] pl-9 rounded-full bg-muted/50"
         placeholder="Search for a course"
       />
     </div>

@@ -2,28 +2,25 @@ import Image from "next/image";
 
 const ProductShowCase = () => {
   return (
-    <div className="flex flex-col items-center gap-4 text-center   rounded  px-10">
-      <div>
-        <h2 className="text-3xl font-bold  mt-4">Boost Your Skill Set</h2>
-        <h3 className="text-xl  mb-4">A More Effective Way to Learn</h3>
-      </div>
-      <p className=" max-w-l px-[8rem] text-xl ">
-        Our Learning Management System (LMS) is designed to empower learners by
-        providing an intuitive, flexible, and engaging platform for skill
-        development. Whether you're looking to enhance your professional
-        expertise or explore new fields, our LMS offers a personalized learning
-        experience tailored to your goals. With a wide range of courses,
-        interactive modules, and real-time feedback, you'll find a more
-        effective way to learn and grow. Dive into our comprehensive resources
-        and take the next step in your educational journey with confidence.
+    <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 px-6 pb-20 text-center">
+      <h2 className="text-3xl font-bold sm:text-4xl">Boost Your Skill Set</h2>
+      <p className="text-lg font-medium text-primary">
+        A more effective way to learn
       </p>
-      <div className="relative w-full max-w-6xl  p-7">
+      <p className="max-w-2xl text-muted-foreground">
+        An intuitive, flexible platform for skill development. Whether you're
+        enhancing your professional expertise or exploring new fields, get a
+        personalized learning experience with real-time feedback that helps
+        you grow with confidence.
+      </p>
+      <div className="relative mt-8 w-full max-w-5xl">
+        <div className="absolute -inset-4 -z-10 rounded-3xl bg-primary/10 blur-2xl" />
         <Image
           src="/product.png"
-          alt="product"
+          alt="Product preview"
           width={1500}
           height={1500}
-          className="rounded-lg border shadow-xl"
+          className="rounded-xl border shadow-2xl"
         />
       </div>
     </div>

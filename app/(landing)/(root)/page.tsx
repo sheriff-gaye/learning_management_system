@@ -5,6 +5,7 @@ import { LandingContent } from "./_components/landing-content";
 import { LandingHero } from "./_components/landing-hero";
 import LandingNavBar from "./_components/landing-navbar";
 import ProductShowCase from "./_components/product-showcase";
+import Features from "./_components/features";
 import CTA from "./_components/cta";
 
 const LandingPage = () => {
@@ -12,12 +13,11 @@ const LandingPage = () => {
     <div className="h-full">
       <LandingNavBar />
       <LandingHero />
+      <Features />
       <ProductShowCase />
       <LandingContent />
-      <CTA/>
-     
+      <CTA />
       <Footer />
-  
     </div>
   );
 };

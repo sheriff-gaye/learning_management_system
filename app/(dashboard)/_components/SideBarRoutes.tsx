@@ -1,10 +1,8 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
 import {
   AirVent,
   BarChart,
-  Cog,
   Compass,
   Layout,
   List,
@@ -12,15 +10,10 @@ import {
   Newspaper,
   NewspaperIcon,
   User,
-  Users,
-  Zap
+  Users
 } from "lucide-react";
 import SiderBarItem from "./SiderBarItem";
 import { usePathname } from "next/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
 
 const guestRoute = [
   {
@@ -82,40 +75,10 @@ const SideBarRoutes = () => {
   const pathname = usePathname();
 
   const isTeacherPage = pathname?.includes("/teacher");
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(true);
-  }, []);
-
-  if (!isLoading) {
-    return (
-      <>
-        <div className="flex items-center gap-x-2 p-4">
-          <Skeleton className="h-6 w-6 bg-slate-200 rounded-md" />
-          <Skeleton className="h-4 w-1/2 bg-slate-200 rounded-md" />
-        </div>
-        <div className="flex items-center gap-x-2 p-4">
-          <Skeleton className="h-6 w-6 bg-slate-200 rounded-md" />
-          <Skeleton className="h-4 w-1/2 bg-slate-200 rounded-md" />
-        </div>
-        <div className="flex items-center gap-x-2 p-4">
-          <Skeleton className="h-6 w-6 bg-slate-200 rounded-md" />
-          <Skeleton className="h-4 w-1/2 bg-slate-200 rounded-md" />
-        </div>
-        <div className="flex items-center gap-x-2 p-4">
-          <Skeleton className="h-6 w-6 bg-slate-200 rounded-md" />
-          <Skeleton className="h-4 w-1/2 bg-slate-200 rounded-md" />
-        </div>
-      </>
-    );
-  }
-
   const routes = isTeacherPage ? teacherRoutes : guestRoute;
 
   return (
-    <div className="flex flex-col w-full ">
+    <div className="flex flex-col w-full gap-y-1 px-3">
       {routes.map((route) => (
         <SiderBarItem
           key={route.href}
@@ -124,23 +87,6 @@ const SideBarRoutes = () => {
           href={route.href}
         />
       ))}
-
-      {isTeacherPage || (
-        <div className="px-3 mt-[400px]">
-          <Card className="bg-white/10 border-0">
-            <CardContent className="py-6">
-              <div className="text-center text-sm text-white mb-4 space-y-2">
-                <p>hello</p>
-                <Progress className="h-3" value={70} variant="premium" />
-              </div>
-              <Button variant="success" className="w-full">
-                AI Credits
-                <Zap className="w-4 h-4 ml-2 fill-white" />
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
     </div>
   );
 };

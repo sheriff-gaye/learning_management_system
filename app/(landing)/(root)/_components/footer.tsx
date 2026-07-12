@@ -28,40 +28,35 @@ const footerLinks = [
 
 const Footer = () => {
   return (
-    <footer className='w-full shadow-xl bg-gray-800  rounded-lg text-white'>
-      <div className='flex justify-between items-start gap-20 flex-wrap max-lg:flex-col max-w-screen-xl mx-auto px-4 py-8'>
-        <div className='flex flex-col items-start'>
-          <a href='/'>
-            <img
-              src="/logo.png"
-              alt='LMS Logo'
-              width={50}
-              height={50}
-              className='m-0'
-            />
+    <footer className="w-full border-t bg-muted/30">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-start justify-between gap-16 px-6 py-12 max-lg:flex-col">
+        <div className="flex flex-col items-start">
+          <a href="/" className="flex items-center gap-2">
+            <img src="/logo.png" alt="LMS Logo" width={40} height={40} />
+            <span className="text-lg font-bold">EduCraft</span>
           </a>
-          <p className='mt-6 text-base leading-7 font-montserrat sm:max-w-sm'>
-            Empower your career with our cutting-edge online courses. Learn the latest skills in technology, business, and more from industry experts.
+          <p className="mt-4 max-w-sm text-sm text-muted-foreground">
+            Empower your career with our cutting-edge online courses. Learn
+            the latest skills in technology, business, and more from industry
+            experts.
           </p>
-          <div className='flex items-center gap-5 mt-8'>
-            <Facebook className='w-6 h-6 cursor-pointer' />
-            <Twitter className='w-6 h-6 cursor-pointer' />
-            <Instagram className='w-6 h-6 cursor-pointer' />
-            <Linkedin className='w-6 h-6 cursor-pointer' />
+          <div className="mt-6 flex items-center gap-4 text-muted-foreground">
+            <Facebook className="h-5 w-5 cursor-pointer transition-colors hover:text-primary" />
+            <Twitter className="h-5 w-5 cursor-pointer transition-colors hover:text-primary" />
+            <Instagram className="h-5 w-5 cursor-pointer transition-colors hover:text-primary" />
+            <Linkedin className="h-5 w-5 cursor-pointer transition-colors hover:text-primary" />
           </div>
         </div>
 
-        <div className='flex flex-1 justify-between lg:gap-10 gap-20 flex-wrap'>
+        <div className="flex flex-1 flex-wrap justify-between gap-10">
           {footerLinks.map((section) => (
             <div key={section.title}>
-              <h4 className='font-montserrat text-2xl leading-normal font-medium mb-6'>
-                {section.title}
-              </h4>
-              <ul>
+              <h4 className="mb-4 text-sm font-semibold">{section.title}</h4>
+              <ul className="space-y-2.5">
                 {section.links.map((link) => (
                   <li
-                    className='mt-3 font-montserrat text-base leading-normal'
                     key={link.name}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     <a href={link.link}>{link.name}</a>
                   </li>
@@ -72,12 +67,14 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className='flex justify-between mt-4 max-sm:flex-col max-sm:items-center max-w-screen-xl mx-auto px-4 py-4'>
-        <div className='flex flex-1 justify-start items-center gap-2 font-montserrat cursor-pointer'>
-          <Copyright />
-          <p>© {new Date().getFullYear()} LMS Platform. All rights reserved.</p>
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 border-t px-6 py-6 text-sm text-muted-foreground sm:flex-row">
+        <div className="flex items-center gap-2">
+          <Copyright className="h-4 w-4" />
+          <p>© {new Date().getFullYear()} EduCraft. All rights reserved.</p>
         </div>
-        <p className='font-montserrat cursor-pointer'>Terms & Conditions</p>
+        <p className="cursor-pointer transition-colors hover:text-foreground">
+          Terms & Conditions
+        </p>
       </div>
     </footer>
   );
